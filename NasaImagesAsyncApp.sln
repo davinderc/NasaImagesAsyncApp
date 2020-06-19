@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NasaImagesAsyncApp", "NasaImagesAsyncApp\NasaImagesAsyncApp.csproj", "{05C10EB9-CCA1-41BF-99E5-4A52EFBAF81D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApodTests", "ApodTests\ApodTests.csproj", "{FA914133-D6E5-442F-91B8-878E9DDC12C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05C10EB9-CCA1-41BF-99E5-4A52EFBAF81D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05C10EB9-CCA1-41BF-99E5-4A52EFBAF81D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05C10EB9-CCA1-41BF-99E5-4A52EFBAF81D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05C10EB9-CCA1-41BF-99E5-4A52EFBAF81D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA914133-D6E5-442F-91B8-878E9DDC12C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA914133-D6E5-442F-91B8-878E9DDC12C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA914133-D6E5-442F-91B8-878E9DDC12C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA914133-D6E5-442F-91B8-878E9DDC12C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7F008C2-A746-4773-AACE-861D5D076284}
+	EndGlobalSection
+EndGlobal
