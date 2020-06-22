@@ -12,11 +12,12 @@ namespace NasaImagesAsyncApp
     public class ApodDownloader
     {
         private const string ApiKey = "9D6EVFHS4mLEdvx6ZtN5i2XRv84kkfL3OwJYJLuQ";
-        private const string _dateFormat = "yyyy-MM-dd";
-        private HttpClient _httpClient;
-        private UriBuilder _uriBuilder;
-        private NameValueCollection _query;
-        private string _baseDirectory = $"C:/Users/dach/Dev/cSharpTraining/NasaImagesAsyncApp/NasaImagesAsyncApp/";
+        private const string DateFormat = "yyyy-MM-dd";
+        private const string HdUrlKeyString = "hdurl";
+        private readonly HttpClient _httpClient;
+        private readonly UriBuilder _uriBuilder;
+        private readonly NameValueCollection _query;
+        private readonly string _baseDirectory = $"C:/Users/dach/Dev/cSharpTraining/NasaImagesAsyncApp/NasaImagesAsyncApp/";
 
         public ApodDownloader()
         {
@@ -27,7 +28,7 @@ namespace NasaImagesAsyncApp
         }
         public string BuildUrl(DateTime date)
         {
-            _query["date"] = date.ToString(_dateFormat);
+            _query["date"] = date.ToString(DateFormat);
             _uriBuilder.Query = _query.ToString();
             var url = _uriBuilder.ToString();
             return url;
@@ -42,9 +43,18 @@ namespace NasaImagesAsyncApp
         {
             
             var response = await _httpClient.GetAsync(apodUrl);
-            var apodMetadataString = await response.Content.ReadAsStringAsync();
-            var apodMetadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(apodMetadataString);
-            var imageUrl = apodMetadata["hdurl"];
+            var imageUrl = "";
+            if (response.IsSuccessStatusCode)
+            {
+                 var apodMetadataString = await response.Content.ReadAsStringAsync();
+                var apodMetadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(apodMetadataString);
+                if (apodMetadata.ContainsKey("media_type") && apodMetadata["media_type"] == "image")
+                {
+                    imageUrl = apodMetadata[HdUrlKeyString];
+                    return imageUrl;
+                }
+            }
+            Console.WriteLine("No image response received!");
             return imageUrl;
         }
 
@@ -52,10 +62,14 @@ namespace NasaImagesAsyncApp
         {
             var apodUrl = BuildUrl(date);
             var imageUrl = await GetImageUrl(apodUrl);
-            var image = await GetImage(imageUrl);
-            var imageStream = Image.FromStream(await image.Content.ReadAsStreamAsync());
-            imageStream.Save(_baseDirectory + $"{ date.ToString(_dateFormat)}.jpeg");
-            return imageStream;
+            if (!string.IsNullOrEmpty(imageUrl))
+            {
+                var image = await GetImage(imageUrl);
+                var imageStream = Image.FromStream(await image.Content.ReadAsStreamAsync());
+                imageStream.Save(_baseDirectory + $"{date.ToString(DateFormat)}.jpeg");
+                return imageStream;
+            }
+            return null;
         }
     }
 }
