@@ -8,7 +8,6 @@ namespace ApodTests
     public class ApodDownloaderTests
     {
         private const string _dateFormat = "yyyy-MM-dd";
-        private static readonly ApodDownloader apodDownloader = new ApodDownloader();
 
         [Fact]
         public void ShouldReturnApodUrlForTodaysDate()
@@ -17,7 +16,7 @@ namespace ApodTests
             var date = DateTime.Today.ToString(_dateFormat);
 
             // Act
-            var response = apodDownloader.buildUrl(date);
+            var response = ApodDownloader.BuildUrl(date);
 
             // Assert
             response.Should().Contain("http://");
@@ -28,7 +27,7 @@ namespace ApodTests
         {
             // Arrange
             var date = DateTime.Today.ToString(_dateFormat);
-            apodDownloader.buildUrl(date);
+            ApodDownloader.BuildUrl(date);
 
             // Act
 
