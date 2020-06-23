@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
-using Newtonsoft.Json;
+using System.Windows.Forms;
 
 namespace NasaImagesAsyncApp
 {
@@ -27,9 +28,9 @@ namespace NasaImagesAsyncApp
             _query = HttpUtility.ParseQueryString(_uriBuilder.Query);
             _query["api_key"] = ApiKey;
         }
-        public string BuildUrl(DateTime date)
+        public string BuildUrl(string date)
         {
-            _query["date"] = date.ToString(DateFormat);
+            _query["date"] = date;
             _uriBuilder.Query = _query.ToString();
             var url = _uriBuilder.ToString();
             return url;
@@ -59,7 +60,7 @@ namespace NasaImagesAsyncApp
             return imageUrl;
         }
 
-        public async Task<Image> DownloadImageForDate(DateTime date)
+        public async Task<Image> DownloadImageForDate(string date)
         {
             var apodUrl = BuildUrl(date);
             var imageUrl = await GetImageUrl(apodUrl);
@@ -72,9 +73,21 @@ namespace NasaImagesAsyncApp
             return null;
         }
 
-        public string FormatDate(DateTime date)
+        public List<string> GetSelectionRangeDateStrings(SelectionRange selectedDateRange)
         {
-            return date.ToString(DateFormat);
+            var currentDate = selectedDateRange.Start;
+            List<string> dateStrings = new List<string>();
+            while (currentDate <= selectedDateRange.End)
+            {
+                dateStrings.Add(FormatDate(currentDate));
+                currentDate = currentDate.AddDays(1);
+            }
+            return dateStrings;
+        }
+
+        public string FormatDate(DateTime currentDate)
+        {
+            return currentDate.ToString(DateFormat);
         }
     }
 }
