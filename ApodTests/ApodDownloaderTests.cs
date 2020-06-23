@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using FluentAssertions;
-using Xunit;
 using NasaImagesAsyncApp;
+using System;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace ApodTests
 {
@@ -20,7 +19,7 @@ namespace ApodTests
             var date = _todayDate;
 
             // Act
-            var response = _apodDownloader.BuildUrl(date);
+            var response = _apodDownloader.BuildUrl(_apodDownloader.FormatDate(date));
 
             // Assert
             response.Should().Contain($"https://api.nasa.gov/planetary/apod?api_key=9D6EVFHS4mLEdvx6ZtN5i2XRv84kkfL3OwJYJLuQ&date=");
@@ -31,7 +30,7 @@ namespace ApodTests
         {
             // Arrange
             var date = DateTime.Today;
-            var response = _apodDownloader.BuildUrl(date);
+            var response = _apodDownloader.BuildUrl(_apodDownloader.FormatDate(date));
 
             // Act
             var imageUrl = await _apodDownloader.GetImageUrl(response);
@@ -46,7 +45,7 @@ namespace ApodTests
         {
             // Arrange
             var date = new DateTime(2020, 06, 3);
-            var response = _apodDownloader.BuildUrl(date);
+            var response = _apodDownloader.BuildUrl(_apodDownloader.FormatDate(date));
 
             // Act
             var getImage = await _apodDownloader.GetImageUrl(response);
@@ -62,7 +61,7 @@ namespace ApodTests
             var date = new DateTime(2020, 06, 22);
 
             // Act
-            var apodUrl = _apodDownloader.BuildUrl(date);
+            var apodUrl = _apodDownloader.BuildUrl(_apodDownloader.FormatDate(date));
             var imageUrl = await _apodDownloader.GetImageUrl(apodUrl);
             var imageResponse = await _apodDownloader.GetImage(imageUrl);
 
