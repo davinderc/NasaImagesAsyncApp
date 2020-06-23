@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NasaImagesAsyncApp
@@ -37,23 +38,33 @@ namespace NasaImagesAsyncApp
 
             foreach (string fileName in dateStrings)
             {
-                if (File.Exists(_baseDirectory + fileName))
-                {
-                    _image = Image.FromFile(_baseDirectory + fileName + ImageFileExtension);
-                }
-                else
-                {
-                    _image = await _apodDownloader.DownloadImageForDate(fileName);
-
-                }
-                if (_image != null)
-                {
-                    _image.Save(_baseDirectory + fileName + ImageFileExtension, _image.RawFormat);
-                    pictureBox1.Image = new Bitmap(_image, new Size(pictureBox1.Width, pictureBox1.Height));
-                }
+                await LoadImage(fileName);
             }
             
             button1.Enabled = true;
+        }
+
+        private async Task LoadImage(string fileName)
+        {
+            if (File.Exists(_baseDirectory + fileName))
+            {
+                _image = Image.FromFile(_baseDirectory + fileName + ImageFileExtension);
+            }
+            else
+            {
+                _image = await _apodDownloader.DownloadImageForDate(fileName);
+            }
+
+            if (_image != null)
+            {
+                SaveAndShowImage(fileName);
+            }
+        }
+
+        private void SaveAndShowImage(string fileName)
+        {
+            _image.Save(_baseDirectory + fileName + ImageFileExtension, _image.RawFormat);
+            pictureBox1.Image = new Bitmap(_image, new Size(pictureBox1.Width, pictureBox1.Height));
         }
     }
 }
