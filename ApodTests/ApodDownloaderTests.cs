@@ -1,6 +1,7 @@
 using FluentAssertions;
 using NasaImagesAsyncApp;
 using System;
+using System.Configuration;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -10,7 +11,8 @@ namespace ApodTests
     {
         
         private readonly DateTime _todayDate = DateTime.Today;
-        private readonly ApodDownloader _apodDownloader = new ApodDownloader();
+        private static readonly string ApiKey = "DEMO_KEY";
+        private readonly ApodDownloader _apodDownloader = new ApodDownloader(ApiKey);
 
         [Fact]
         public void ShouldReturnApodUrlForTodayDate()
@@ -22,7 +24,7 @@ namespace ApodTests
             var response = _apodDownloader.BuildUrl(_apodDownloader.FormatDate(date));
 
             // Assert
-            response.Should().Contain($"https://api.nasa.gov/planetary/apod?api_key=9D6EVFHS4mLEdvx6ZtN5i2XRv84kkfL3OwJYJLuQ&date=");
+            response.Should().Contain($"https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=");
         }
 
         [Fact]
