@@ -518,4 +518,5 @@ MigrationBackup/
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,csharp
 
 # Images saved from Apod site
-*.jpeg
+images/
+*.jpg

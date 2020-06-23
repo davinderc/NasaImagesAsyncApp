@@ -17,7 +17,8 @@ namespace NasaImagesAsyncApp
         private readonly HttpClient _httpClient;
         private readonly UriBuilder _uriBuilder;
         private readonly NameValueCollection _query;
-        private readonly string _baseDirectory = $"C:/Users/dach/Dev/cSharpTraining/NasaImagesAsyncApp/NasaImagesAsyncApp/";
+
+        public string BaseDirectory { get; set; } = $"C:/Users/dach/Dev/cSharpTraining/NasaImagesAsyncApp/NasaImagesAsyncApp/images/";
 
         public ApodDownloader()
         {
@@ -66,10 +67,14 @@ namespace NasaImagesAsyncApp
             {
                 var image = await GetImage(imageUrl);
                 var imageStream = Image.FromStream(await image.Content.ReadAsStreamAsync());
-                imageStream.Save(_baseDirectory + $"{date.ToString(DateFormat)}.jpeg");
                 return imageStream;
             }
             return null;
+        }
+
+        public string FormatDate(DateTime date)
+        {
+            return date.ToString(DateFormat);
         }
     }
 }
