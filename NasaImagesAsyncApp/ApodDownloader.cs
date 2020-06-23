@@ -12,7 +12,6 @@ namespace NasaImagesAsyncApp
 {
     public class ApodDownloader
     {
-        private const string ApiKey = "9D6EVFHS4mLEdvx6ZtN5i2XRv84kkfL3OwJYJLuQ";
         private const string DateFormat = "yyyy-MM-dd";
         private const string HdUrlKeyString = "hdurl";
         private readonly HttpClient _httpClient;
@@ -21,7 +20,7 @@ namespace NasaImagesAsyncApp
 
         public string BaseDirectory { get; set; } = $"C:/Users/dach/Dev/cSharpTraining/NasaImagesAsyncApp/NasaImagesAsyncApp/images/";
 
-        public ApodDownloader()
+        public ApodDownloader(string ApiKey)
         {
             _httpClient = new HttpClient();
             _uriBuilder = new UriBuilder("https://api.nasa.gov/planetary/apod") {Port = -1};

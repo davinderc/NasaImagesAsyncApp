@@ -520,3 +520,5 @@ MigrationBackup/
 # Images saved from Apod site
 images/
 *.jpg
+
+NasaImagesAsyncApp/App.config

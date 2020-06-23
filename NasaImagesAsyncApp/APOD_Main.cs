@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -14,7 +15,8 @@ namespace NasaImagesAsyncApp
     public ApodMain()
         {
             InitializeComponent();
-            _apodDownloader = new ApodDownloader();
+            var apiKey = ConfigurationManager.AppSettings["api_key"];
+            _apodDownloader = new ApodDownloader(apiKey);
             _baseDirectory = _apodDownloader.BaseDirectory;
             if (!Directory.Exists(_baseDirectory))
             {
